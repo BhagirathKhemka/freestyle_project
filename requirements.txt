@@ -4,3 +4,4 @@ requests
 datetime
 pytz
 IPython
+pytest
