@@ -1,1 +1,7 @@
-
+newsapi-python
+python-dotenv
+requests
+datetime
+pytz
+IPython
+pytest
