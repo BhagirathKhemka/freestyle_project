@@ -45,3 +45,4 @@ Run the script:
 python -m app.main
 ```
 Website link using Render: 
+https://news-snapshot-freestyle-project.onrender.com
