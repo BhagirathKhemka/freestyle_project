@@ -45,7 +45,8 @@ def index():
                     html_content=html_content
                 )
 
-    return render_template("home.html", articles=articles)
+    return render_template("home.html", articles=articles, available_sources=available_sources)
+
 
 
 
