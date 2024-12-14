@@ -54,24 +54,21 @@ def collect_news(topic, keyword, num_headlines, sources):
             language="en"
         )
 
-    headline_number = 1
     headlines = []
-
-    print(f"\nTop {num_headlines} Headlines for {sources or topic.capitalize()}")
     for article in top_headlines['articles']:
-        if article['title'] != '[Removed]' and headline_number <= num_headlines:
-            published_date = convert_to_est(article['publishedAt'])
-            headline = (f"{headline_number}. {article['title']}\n"
-                        f"Source: {article['source']['name']}\n"
-                        f"Description: {article['description']}\n"
-                        f"Published: {published_date}\n"
-                        f"Link: {article['url']}\n")
-            print(headline)
-            if article.get('urlToImage'):
-                show_image(article['urlToImage'])
-            headlines.append(headline)
-            headline_number += 1
 
-    if not headlines:
-        print("No articles found for your query.")
+        if article['title'] != '[Removed]' and article['title'] and article['description']:
+            headline = {
+                "title": article['title'],
+                "source": article['source']['name'] if article['source'] and 'name' in article['source'] else "Unknown Source",
+                "description": article['description'],
+                "url": article['url'],
+                "urlToImage": article.get('urlToImage'),
+            }
+            headlines.append(headline)
+
+
+            if len(headlines) >= num_headlines:
+                break
+
     return headlines

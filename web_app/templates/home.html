@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Get Your Top News Snapshot!</h1>
+
+    <form method="post" action="/" class="mb-5">
+        <div class="mb-3">
+            <label for="filter_type" class="form-label">Filter Type</label>
+            <select id="filter_type" name="filter_type" class="form-select" required>
+                <option value="1">Category</option>
+                <option value="2">Specific Sources</option>
+            </select>
+        </div>
+
+        <div id="category_filter" class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" name="category" class="form-select">
+                <option value="general">General</option>
+                <option value="1">Technology</option>
+                <option value="2">Health</option>
+                <option value="3">Sports</option>
+                <option value="4">Business</option>
+                <option value="5">Entertainment</option>
+            </select>
+        </div>
+
+        <div id="source_filter" class="mb-3" style="display: none;">
+            <label for="sources" class="form-label">Specific Sources</label>
+            <input type="text" id="sources" name="sources" class="form-control" placeholder="Comma-separated sources (e.g., BBC News, CNN)">
+        </div>
+
+        <div class="mb-3">
+            <label for="keyword" class="form-label">Keyword</label>
+            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Optional keyword">
+        </div>
+
+        <div class="mb-3">
+            <label for="num_headlines" class="form-label">Number of Headlines</label>
+            <input type="number" id="num_headlines" name="num_headlines" class="form-control" min="1" placeholder="Default is 5">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Get News</button>
+    </form>
+
+    {% if articles %}
+    <h2 class="text-center">Top Headlines</h2>
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ article['urlToImage'] or 'https://via.placeholder.com/150' }}" class="card-img-top" alt="News Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ article['title'] }}</h5>
+                    <p class="card-text"><strong>Source:</strong> {{ article['source']['name'] }}</p>
+                    <p class="card-text">{{ article['description']|truncate(150) }}</p>
+                    <a href="{{ article['url'] }}" class="btn btn-primary" target="_blank">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('filter_type').addEventListener('change', function() {
+        const filterType = this.value;
+        document.getElementById('category_filter').style.display = filterType === '1' ? 'block' : 'none';
+        document.getElementById('source_filter').style.display = filterType === '2' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}
