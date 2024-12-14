@@ -1,4 +1,4 @@
-from app.news import get_user_topic, collect_news
+from app.news import get_user_topic, collect_news, fetch_sources
 
 def main():
     topic, keyword, num_headlines, sources = get_user_topic()

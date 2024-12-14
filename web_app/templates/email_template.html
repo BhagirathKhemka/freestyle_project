@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Top News Snapshot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .article {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .article img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Top News Snapshot</h1>
+    {% for article in articles %}
+    <div class="article">
+        <h2>{{ article['title'] }}</h2>
+        <p><strong>Source:</strong> {{ article['source'] }}</p>
+        <p><strong>Published Date:</strong> {{ article['publishedAt'] }}</p>
+        <p>{{ article['description'] }}</p>
+        <a href="{{ article['url'] }}" target="_blank">Read More</a>
+    </div>
+    {% endfor %}
+</body>
+</html>
