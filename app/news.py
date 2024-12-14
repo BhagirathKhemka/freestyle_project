@@ -8,6 +8,10 @@ load_dotenv()
 api_key = os.getenv("NEWS_API")
 newsapi = NewsApiClient(api_key=api_key)
 
+def fetch_sources():
+    sources = newsapi.get_sources(language="en", country="us")
+    return [source['name'] for source in sources['sources']]
+
 def get_user_topic():
     print("Get your top news snapshot now!")
     print("Do you want to filter by:")
@@ -56,17 +60,19 @@ def collect_news(topic, keyword, num_headlines, sources):
 
     headlines = []
     for article in top_headlines['articles']:
-
         if article['title'] != '[Removed]' and article['title'] and article['description']:
+            published_at = article.get('publishedAt')
+            published_date = convert_to_est(published_at) if published_at else "Unknown Date"
+
             headline = {
                 "title": article['title'],
                 "source": article['source']['name'] if article['source'] and 'name' in article['source'] else "Unknown Source",
                 "description": article['description'],
                 "url": article['url'],
                 "urlToImage": article.get('urlToImage'),
+                "publishedAt": published_date
             }
             headlines.append(headline)
-
 
             if len(headlines) >= num_headlines:
                 break

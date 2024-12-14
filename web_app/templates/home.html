@@ -27,7 +27,12 @@
 
         <div id="source_filter" class="mb-3" style="display: none;">
             <label for="sources" class="form-label">Specific Sources</label>
-            <input type="text" id="sources" name="sources" class="form-control" placeholder="Comma-separated sources (e.g., BBC News, CNN)">
+            <select id="sources" name="sources" class="form-select" multiple>
+                {% for source in available_sources %}
+                <option value="{{ source }}">{{ source }}</option>
+                {% endfor %}
+            </select>
+            <small class="form-text text-muted">Hold down Ctrl (Cmd on Mac) to select multiple sources.</small>
         </div>
 
         <div class="mb-3">
@@ -39,6 +44,22 @@
             <label for="num_headlines" class="form-label">Number of Headlines</label>
             <input type="number" id="num_headlines" name="num_headlines" class="form-control" min="1" placeholder="Default is 5">
         </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" id="send_email" name="send_email" class="form-check-input">
+            <label for="send_email" class="form-check-label">Send results to my email</label>
+        </div>
+        
+        <div id="email_input" class="mb-3" style="display: none;">
+            <label for="email_address" class="form-label">Email Address</label>
+            <input type="email" id="email_address" name="email_address" class="form-control" placeholder="Enter your email">
+        </div>
+        
+        <script>
+            document.getElementById('send_email').addEventListener('change', function () {
+                document.getElementById('email_input').style.display = this.checked ? 'block' : 'none';
+            });
+        </script>
 
         <button type="submit" class="btn btn-primary">Get News</button>
     </form>
@@ -52,8 +73,9 @@
                 <img src="{{ article['urlToImage'] or 'https://via.placeholder.com/150' }}" class="card-img-top" alt="News Image">
                 <div class="card-body">
                     <h5 class="card-title">{{ article['title'] }}</h5>
-                    <p class="card-text"><strong>Source:</strong> {{ article['source']['name'] }}</p>
-                    <p class="card-text">{{ article['description']|truncate(150) }}</p>
+                    <p class="card-text"><strong>Source:</strong> {{ article['source'] }}</p>
+                    <p class="card-text"><strong>Published Date:</strong> {{ article['publishedAt'] }}</p>
+                    <p class="card-text">{{ article['description']}}</p>
                     <a href="{{ article['url'] }}" class="btn btn-primary" target="_blank">Read More</a>
                 </div>
             </div>
