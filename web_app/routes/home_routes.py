@@ -30,7 +30,7 @@ def index():
             topic = topics.get(category_choice, "general")
 
         keyword = request.form.get("keyword")
-        num_headlines = int(request.form.get("num_headlines", 5))
+        num_headlines = request.form.get("num_headlines", type=int, default=5)
 
         articles = collect_news(topic, keyword, num_headlines, sources)
 
